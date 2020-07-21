@@ -15,3 +15,8 @@ const getOptions = () => {
       };
    }
 };
+
+const parser = (from = '.env', to = from + '.example') => {
+   const options = getOptions();
+   console.log(options);
+};
