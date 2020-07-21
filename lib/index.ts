@@ -25,7 +25,7 @@ const getOptions = () => {
  */
 const dc = (from = '.env', to = from + '.example', write = true) => {
    const options = getOptions();
-   const ignores: string[] = options['@ignore'];
+   const ignores: string[] = options['@ignores'];
 
    const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
 
