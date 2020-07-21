@@ -16,7 +16,14 @@ const getOptions = () => {
    }
 };
 
-const parser = (from = '.env', to = from + '.example') => {
+/**
+ * @author Yoni Calsin <helloyonicb@gmail.com>
+ * @title Parser function
+ * @param from .env
+ * @param to from + ".example"
+ * @param write true
+ */
+const dc = (from = '.env', to = from + '.example', write = true) => {
    const options = getOptions();
    const ignores: string[] = options['@ignore'];
 
@@ -44,7 +51,11 @@ const parser = (from = '.env', to = from + '.example') => {
    // credit adding
    newData += '\n\n# Create by dotenv-cloack';
 
-   fs.writeFileSync(to, newData, {
-      encoding: 'utf-8',
-   });
+   if (write) {
+      fs.writeFileSync(to, newData, {
+         encoding: 'utf-8',
+      });
+   } else {
+      return newData;
+   }
 };
