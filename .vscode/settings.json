@@ -1,0 +1,8 @@
+{
+   "editor.formatOnSave": true,
+   "editor.detectIndentation": false,
+   "editor.tabSize": 3,
+   "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+   }
+}
