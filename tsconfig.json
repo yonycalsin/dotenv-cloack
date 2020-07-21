@@ -10,7 +10,10 @@
       "outDir": "./",
       "baseUrl": "./",
       "incremental": false,
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "typeRoots": ["node_modules/@types"]
+      // "noEmit": true
    },
-   "exclude": ["node_modules", "dist", "examples"]
+   "include": ["src/**/*"],
+   "exclude": ["node_modules", "**/*.spec.ts", "dist"]
 }
