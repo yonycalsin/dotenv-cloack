@@ -41,7 +41,10 @@ const parser = (from = '.env', to = from + '.example') => {
          }
       });
 
-   // Agregated reference
-
+   // credit adding
    newData += '\n\n# Create by dotenv-cloack';
+
+   fs.writeFileSync(to, newData, {
+      encoding: 'utf-8',
+   });
 };
