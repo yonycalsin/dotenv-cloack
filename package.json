@@ -14,6 +14,8 @@
       "dotenv-cloack": "./dist/cli.js"
    },
    "scripts": {
+      "build": "tsc",
+      "dev": "nodemon",
       "format": "prettier --write ./**/*.{json,ts}",
       "lint": "eslint ./**/*.{js,ts,tsx} --fix",
       "test": "jest"
