@@ -3,7 +3,6 @@ import { Merge } from 'merge-all-objects';
 import path from 'path';
 
 const rex = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/;
-
 const defaultOptions = { ignore: [], remove: [] };
 const header = `# Created by dotenv-cloack © 2020\n# https://github.com/yonicalsin/dotenv-cloack`;
 
@@ -25,7 +24,7 @@ const getOptions = () => {
  * @param to from + ".example"
  * @param write true
  */
-export const dc = (
+export const cloack = (
    from = '.env',
    to = from + '.example',
    { write = true } = {},
@@ -66,7 +65,4 @@ export const dc = (
    }
 };
 
-export default dc;
-dc(undefined, undefined, {
-   // write: false,
-});
+export default cloack;

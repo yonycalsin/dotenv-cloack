@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import program from 'commander';
-import { dc } from '.';
+import { cloack } from '.';
 // eslint-disable-next-line
 const pkg = require('../package.json');
 
@@ -11,7 +11,7 @@ program
    .option('-s --save <file path>', 'Destination path')
    .parse(process.argv);
 
-const data = dc(program.open, program.save, {
+const data = cloack(program.open, program.save, {
    write: !program.write,
 });
 
