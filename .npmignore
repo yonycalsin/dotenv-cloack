@@ -1,0 +1,21 @@
+# Folders
+node_modules
+/src
+/tests
+
+# Files
+.env
+.env.example
+.eslintignore
+.eslintrc.js
+.gitignore
+.prettierignore
+.prettierrc
+envrc.json
+jest.config.js
+nodemon.json
+tsconfig.json
+yarn.lock
+
+# Others
+package-lock.json
