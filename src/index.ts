@@ -4,9 +4,7 @@ import path from 'path';
 
 const rex = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/;
 
-const defaultOptions = {
-   ignores: [],
-};
+const defaultOptions = { ignore: [], remove: [] };
 const header = `# Created by dotenv-cloack © 2020\n# https://github.com/yonicalsin/dotenv-cloack`;
 
 const getOptions = () => {
@@ -30,10 +28,9 @@ const getOptions = () => {
 export const dc = (
    from = '.env',
    to = from + '.example',
-   write = true,
+   { write = true } = {},
 ): undefined | string => {
-   const { ignores } = getOptions();
-
+   const { ignore } = getOptions();
    const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
 
    let newData = data.toString();
@@ -46,11 +43,11 @@ export const dc = (
          if (item) {
             const [, key, value = 'xxxxxxx'] = item;
             const newLine = `${key}=${String(value).replace(
-               /[a-z\s\D\d\w]/g,
+               /[a-z\s\D\d\w\_\-]/g,
                'x',
             )}`;
 
-            if (!ignores.includes(key)) {
+            if (!ignore.includes(key)) {
                newData = newData.replace(new RegExp(line, 'g'), newLine);
             }
          }
@@ -70,3 +67,6 @@ export const dc = (
 };
 
 export default dc;
+dc(undefined, undefined, {
+   // write: false,
+});
