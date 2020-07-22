@@ -7,13 +7,13 @@
       "experimentalDecorators": true,
       "target": "es2017",
       "sourceMap": false,
-      "outDir": "./",
-      "baseUrl": "./",
+      "outDir": "./dist",
+      "baseUrl": "./src",
       "incremental": false,
       "esModuleInterop": true,
       "typeRoots": ["node_modules/@types"]
       // "noEmit": true
    },
-   "include": ["src/**/*"],
+   "include": ["src/*"],
    "exclude": ["node_modules", "**/*.spec.ts", "dist"]
 }
