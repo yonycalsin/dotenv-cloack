@@ -1,6 +1,6 @@
 {
    "name": "dotenv-cloack",
-   "version": "1.0.0",
+   "version": "1.0.1",
    "private": false,
    "description": ".env.example generator",
    "repository": "https://github.com/yonicalsin/dotenv-cloack.git",
@@ -30,8 +30,8 @@
       ]
    },
    "dependencies": {
-      "chalk": "^4.1.0",
-      "commander": "^6.0.0"
+      "commander": "^6.0.0",
+      "merge-all-objects": "^1.0.4"
    },
    "devDependencies": {
       "@types/chalk": "^2.2.0",

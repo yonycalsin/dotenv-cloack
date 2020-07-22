@@ -1126,7 +1126,7 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-chalk@*, chalk@^4.0.0, chalk@^4.1.0:
+chalk@*, chalk@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.0.tgz#4e14870a618d9e2edd97dd8345fd9d9dc315646a"
   integrity sha512-qwx12AxXe2Q5xQ43Ac//I6v5aXTipYrSESdOgzrN+9XjgEpyjpKuvSGaN4qE93f7TQTlerQQ8S+EQ0EyDoVL1A==
@@ -2327,6 +2327,11 @@ is-accessor-descriptor@^1.0.0:
   dependencies:
     kind-of "^6.0.0"
 
+is-all-utils@^1.0.3:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/is-all-utils/-/is-all-utils-1.0.5.tgz#69445f954726ece007b33d115e1919c4ba01d753"
+  integrity sha512-IH5qKBZkMs3CQrgmTY0itUmggk6rEFV94bX7/g8J8lA2oEaGl6IQ0Vzs9DDzQG8ix5Q0Uc9FTdwF1K5gHPnCsw==
+
 is-arrayish@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.2.1.tgz#77c99840527aa8ecb1a8ba697b80645a7a926a9d"
@@ -3249,6 +3254,13 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+merge-all-objects@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/merge-all-objects/-/merge-all-objects-1.0.4.tgz#a004c8cb630fb25c6f20fc7d091a024511fd2010"
+  integrity sha512-MVosQ/Svk1UpN+lTVHBfEYAZgfvOQkV4fzNIps/OtqT7TV0kjGZ3DN8SZRsu7eY7jH+RmdiRHAwPn/1HfLCyxA==
+  dependencies:
+    is-all-utils "^1.0.3"
 
 merge-stream@^2.0.0:
   version "2.0.0"

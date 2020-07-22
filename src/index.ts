@@ -1,19 +1,20 @@
 import fs from 'fs';
+import { Merge } from 'merge-all-objects';
 import path from 'path';
 
 const rex = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/;
+const defaultOptions = { ignore: [], remove: [] };
+const header = `# Created by dotenv-cloack © 2020\n# https://github.com/yonicalsin/dotenv-cloack`;
 
 const getOptions = () => {
+   let data: any;
    try {
-      const data = fs.readFileSync(path.resolve('envrc.json'), {
+      data = fs.readFileSync(path.resolve('dcloack.json'), {
          encoding: 'utf-8',
       });
-      return JSON.parse(data);
-   } catch {
-      return {
-         '@ignore': [],
-      };
-   }
+      data = JSON.parse(data);
+   } catch {}
+   return Merge(defaultOptions, data);
 };
 
 /**
@@ -23,14 +24,13 @@ const getOptions = () => {
  * @param to from + ".example"
  * @param write true
  */
-export const dc = (
+export const cloack = (
    from = '.env',
    to = from + '.example',
-   write = true,
+   { write = true, ignore: moreIgnore = [] } = {},
 ): undefined | string => {
-   const options = getOptions();
-   const ignores: string[] = options['@ignores'];
-
+   let { ignore } = getOptions();
+   ignore = [...ignore, ...moreIgnore];
    const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
 
    let newData = data.toString();
@@ -41,22 +41,21 @@ export const dc = (
       .forEach((line) => {
          const item = line.match(rex);
          if (item) {
-            const [oldLine, key, value = 'xxxxxxx'] = item;
-            let newLine = `${key}=${String(value).replace(
-               /[a-z\s\D\d\w]/g,
+            const [, key, value = 'xxxxxxx'] = item;
+            const newLine = `${key}=${String(value).replace(
+               /[a-z\s\D\d\w\_\-]/g,
                'x',
             )}`;
 
-            if (ignores.includes(key)) {
-               newLine = oldLine;
+            if (!ignore.includes(key)) {
+               newData = newData.replace(new RegExp(line, 'g'), newLine);
             }
-
-            newData = newData.replace(new RegExp(line, 'g'), newLine);
          }
       });
 
    // credit adding
-   newData += '\n\n# Create by dotenv-cloack';
+   newData = header + '\n\n' + newData;
+   newData += '\n\n' + header;
 
    if (write) {
       fs.writeFileSync(to, newData, {
@@ -67,4 +66,4 @@ export const dc = (
    }
 };
 
-export default dc;
+export default cloack;

@@ -30,12 +30,48 @@ npm add --save dotenv-cloack
 yarn global add dotenv-cloack # Globaly
 ```
 
+## 🚀 Process
+
+> Create .env file
+
+```bash
+# Application
+APP_NAME=Dotenv Cloack
+APP_PORT=8080
+
+# Database
+DB_HOST=localhost
+DB_PASS=admin_password
+DB_USER=cloack
+```
+
+> The processed file will be generated `.env.example`
+
+```bash
+# Application
+APP_NAME=Dotenv Cloack
+APP_PORT=xxxx
+
+# Database
+DB_HOST=localhost
+DB_PASS=xxxxxxxxxxxxxx
+DB_USER=xxxxxx
+```
+
+to generate is very easy !
+
+```bash
+cloack --ignore APP_NAME,DB_HOST
+```
+
 ## 🌎 Usage
 
 ```bash
 npx cloack
 
-# # Globaly
+# Or
+
+# Globaly
 cloack
 ```
 
@@ -44,11 +80,12 @@ cloack
 -  **-w** --write - create the target file and generate without the values, by default it is true
 -  **-o** --open - the default file address is `.env`
 -  **-s** --save - the default output address is the name of the input file concatenated with `.example`; for example `.env.example`
+-  **-i** --ignore - entered keys will be ignored, add separating by commas `(,)`
 
 > Example
 
 ```bash
-cloack -w -o .env -s .env.example
+cloack -w -o .env -s .env.example -i APP_NAME,AUTHOR_NAME
 ```
 
 ## ⭐ Support for
