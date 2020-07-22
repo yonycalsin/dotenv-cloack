@@ -6,7 +6,7 @@
    "repository": "https://github.com/yonicalsin/dotenv-cloack.git",
    "license": "MIT",
    "author": "Yoni Calsin <hellyonicb@gmail.com>",
-   "main": "index.js",
+   "main": "dist/index.js",
    "scripts": {
       "format": "prettier --write ./**/*.{json,ts}",
       "lint": "eslint ./**/*.{js,ts,tsx} --fix",
@@ -49,6 +49,9 @@
       "typescript": "^3.9.7"
    },
    "bin": {
-      "dotenvexample": "./dist/cli.js"
+      "dotenv-cloack": "./dist/cli.js",
+      "dcloack": "./dist/cli.js",
+      "cloack": "./dist/cli.js",
+      "dclk": "./dist/cli.js"
    }
 }
