@@ -30,8 +30,8 @@
       ]
    },
    "dependencies": {
-      "chalk": "^4.1.0",
-      "commander": "^6.0.0"
+      "commander": "^6.0.0",
+      "merge-all-objects": "^1.0.4"
    },
    "devDependencies": {
       "@types/chalk": "^2.2.0",
