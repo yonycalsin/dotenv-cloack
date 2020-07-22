@@ -23,7 +23,11 @@ const getOptions = () => {
  * @param to from + ".example"
  * @param write true
  */
-const dc = (from = '.env', to = from + '.example', write = true) => {
+export const dc = (
+   from = '.env',
+   to = from + '.example',
+   write = true,
+): undefined | string => {
    const options = getOptions();
    const ignores: string[] = options['@ignores'];
 
@@ -37,8 +41,11 @@ const dc = (from = '.env', to = from + '.example', write = true) => {
       .forEach((line) => {
          const item = line.match(rex);
          if (item) {
-            const [oldLine, key] = item;
-            let newLine = `${key}=xxxxxx`;
+            const [oldLine, key, value = 'xxxxxxx'] = item;
+            let newLine = `${key}=${String(value).replace(
+               /[a-z\s\D\d\w]/g,
+               'x',
+            )}`;
 
             if (ignores.includes(key)) {
                newLine = oldLine;
@@ -59,3 +66,5 @@ const dc = (from = '.env', to = from + '.example', write = true) => {
       return newData;
    }
 };
+
+export default dc;
