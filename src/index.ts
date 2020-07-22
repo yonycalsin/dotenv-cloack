@@ -27,9 +27,10 @@ const getOptions = () => {
 export const cloack = (
    from = '.env',
    to = from + '.example',
-   { write = true } = {},
+   { write = true, ignore: moreIgnore = [] } = {},
 ): undefined | string => {
-   const { ignore } = getOptions();
+   let { ignore } = getOptions();
+   ignore = [...ignore, ...moreIgnore];
    const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
 
    let newData = data.toString();
