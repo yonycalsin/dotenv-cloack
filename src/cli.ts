@@ -11,7 +11,9 @@ program
    .option('-s --save <file path>', 'Destination path')
    .parse(process.argv);
 
-const data = dc(program.open, program.save, program.write);
+const data = dc(program.open, program.save, {
+   write: !program.write,
+});
 
 if (data) {
    console.log(data);
