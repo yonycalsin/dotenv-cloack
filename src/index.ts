@@ -1,36 +1,10 @@
 import fs from 'fs';
-import { Merge } from 'merge-all-objects';
 import path from 'path';
+import { defaultOptions, headerComment, rexMatchLine } from './constants';
 
-const rex = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/;
-const defaultOptions = { ignore: [], remove: [] };
-const header = `# Created by dotenv-cloack © 2020\n# https://github.com/yonicalsin/dotenv-cloack`;
+export const cloack = (from = '.env', to = from + '.example', options) => {
+   const { ignore } = Object.assign(options ?? {}, defaultOptions);
 
-const getOptions = () => {
-   let data: any;
-   try {
-      data = fs.readFileSync(path.resolve('dcloack.json'), {
-         encoding: 'utf-8',
-      });
-      data = JSON.parse(data);
-   } catch {}
-   return Merge(defaultOptions, data);
-};
-
-/**
- * @author Yoni Calsin <helloyonicb@gmail.com>
- * @title Parser function
- * @param from .env
- * @param to from + ".example"
- * @param write true
- */
-export const cloack = (
-   from = '.env',
-   to = from + '.example',
-   { write = true, ignore: moreIgnore = [] } = {},
-): undefined | string => {
-   let { ignore } = getOptions();
-   ignore = [...ignore, ...moreIgnore];
    const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
 
    let newData = data.toString();
@@ -39,7 +13,7 @@ export const cloack = (
       .toString()
       .split('\n')
       .forEach((line) => {
-         const item = line.match(rex);
+         const item = line.match(rexMatchLine);
          if (item) {
             const [, key, value = 'xxxxxxx'] = item;
             const newLine = `${key}=${String(value).replace(
@@ -54,16 +28,12 @@ export const cloack = (
       });
 
    // credit adding
-   newData = header + '\n\n' + newData;
-   newData += '\n\n' + header;
+   newData = headerComment + '\n\n' + newData;
+   newData += '\n\n' + headerComment;
 
-   if (write) {
-      fs.writeFileSync(to, newData, {
-         encoding: 'utf-8',
-      });
-   } else {
-      return newData;
-   }
+   fs.writeFileSync(to, newData, {
+      encoding: 'utf-8',
+   });
 };
 
 export default cloack;
