@@ -3,9 +3,9 @@
    "version": "1.0.2",
    "private": false,
    "description": ".env.example generator",
-   "repository": "https://github.com/yonicalsin/dotenv-cloack.git",
+   "repository": "https://github.com/yonycalsin/dotenv-cloack.git",
    "license": "MIT",
-   "author": "Yoni Calsin <hellyonicb@gmail.com>",
+   "author": "Yony Calsin",
    "main": "dist/index.js",
    "bin": {
       "cloack": "./dist/cli.js",
@@ -32,8 +32,7 @@
       ]
    },
    "dependencies": {
-      "commander": "^6.0.0",
-      "merge-all-objects": "^1.0.4"
+      "commander": "^6.0.0"
    },
    "devDependencies": {
       "@types/chalk": "^2.2.0",
