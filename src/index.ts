@@ -49,6 +49,4 @@ const cloack = (options?: any) => {
    });
 };
 
-cloack();
-
 export default cloack;

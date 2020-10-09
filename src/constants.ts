@@ -19,10 +19,11 @@ const defaultOptions = {
 const rexMatchLine = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/;
 
 const mergeOptions = (settings: any = defaultOptions) => {
-   const ignoreKeys = [...defaultOptions?.ignore, ...settings?.ignore];
+   const ignoreKeys = [...defaultOptions?.ignore, ...(settings?.ignore ?? [])];
    const moreOptions = { ...defaultOptions, ...settings };
 
-   const alreadyEnv = existsSync(moreOptions.to);
+   const alreadyEnv =
+      existsSync(moreOptions.to) && !existsSync(moreOptions.from);
 
    if (alreadyEnv) {
       moreOptions.ignoreAll = true;
