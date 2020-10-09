@@ -1,35 +1,41 @@
 import fs from 'fs';
 import path from 'path';
-import { defaultOptions, headerComment, rexMatchLine } from './constants';
+import { headerComment, mergeOptions, rexMatchLine } from './constants';
 
-export const cloack = (from = '.env', to = from + '.example', options) => {
-   const { ignore } = Object.assign(options ?? {}, defaultOptions);
+const cloack = (options?: any) => {
+   const { ignoreKeys, maskValue, from, to, mask, ignoreAll } = mergeOptions(
+      options,
+   );
 
    const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
 
    let newData = data.toString();
 
-   newData
-      .toString()
-      .split('\n')
-      .forEach((line) => {
-         const item = line.match(rexMatchLine);
-         if (item) {
-            const [, key, value = 'xxxxxxx'] = item;
-            const newLine = `${key}=${String(value).replace(
-               /[a-z\s\D\d\w\_\-]/g,
-               'x',
-            )}`;
+   newData.split('\n').forEach((line) => {
+      const item = line.match(rexMatchLine);
 
-            if (!ignore.includes(key)) {
-               newData = newData.replace(new RegExp(line, 'g'), newLine);
-            }
-         }
-      });
+      if (!item) return;
 
-   // credit adding
-   newData = headerComment + '\n\n' + newData;
-   newData += '\n\n' + headerComment;
+      const [, key, value] = item;
+
+      // Already in ignore
+      if (ignoreKeys.includes(key) || ignoreAll) return;
+
+      const newValue = mask
+         ? String(value).replace(/[a-z\s\D\d\w\_\-]/g, maskValue)
+         : '';
+
+      const newLine = key + '=' + newValue;
+
+      newData = newData.replace(new RegExp(line, 'g'), newLine);
+   });
+
+   const alreadyComment = newData.match(headerComment);
+
+   if (!alreadyComment) {
+      // credit adding
+      newData = headerComment + '\n\n' + newData;
+   }
 
    fs.writeFileSync(to, newData, {
       encoding: 'utf-8',
