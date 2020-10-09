@@ -77,15 +77,17 @@ cloack
 
 ### options
 
--  **-w** --write - create the target file and generate without the values, by default it is true
--  **-o** --open - the default file address is `.env`
--  **-s** --save - the default output address is the name of the input file concatenated with `.example`; for example `.env.example`
+-  **-f** --from - the default file address is `.env`
+-  **-t** --to - the default output address is the name of the input file concatenated with `.example`; for example `.env.example`
 -  **-i** --ignore - entered keys will be ignored, add separating by commas `(,)`
+-  **-ia** --ignoreAll - ignore all keys
+-  **-m** --mask - for mask the value
+-  **-mv** --maskValue - for mask value for default is **x**
 
 > Example
 
 ```bash
-cloack -w -o .env -s .env.example -i APP_NAME,AUTHOR_NAME
+cloack -f .env -t .env.example -i APP_NAME,AUTHOR_NAME
 ```
 
 ## ⭐ Support for
