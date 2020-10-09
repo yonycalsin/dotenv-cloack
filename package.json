@@ -1,6 +1,6 @@
 {
    "name": "dotenv-cloack",
-   "version": "1.0.2",
+   "version": "2.0.0",
    "private": false,
    "description": ".env.example generator",
    "repository": "https://github.com/yonycalsin/dotenv-cloack.git",
