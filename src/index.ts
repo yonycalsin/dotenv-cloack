@@ -12,41 +12,44 @@ const cloack = (options?: any) => {
       ignoreAll,
       alreadyEnv,
    } = mergeOptions(options);
+   try {
+      const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
 
-   const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
+      let newData = data.toString();
 
-   let newData = data.toString();
+      !alreadyEnv &&
+         newData.split('\n').forEach((line) => {
+            const item = line.match(rexMatchLine);
 
-   !alreadyEnv &&
-      newData.split('\n').forEach((line) => {
-         const item = line.match(rexMatchLine);
+            if (!item) return;
 
-         if (!item) return;
+            const [, key, value] = item;
 
-         const [, key, value] = item;
+            // Already in ignore
+            if (ignoreKeys.includes(key) || ignoreAll) return;
 
-         // Already in ignore
-         if (ignoreKeys.includes(key) || ignoreAll) return;
+            const newValue = mask
+               ? String(value).replace(/[a-z\s\D\d\w\_\-]/g, maskValue)
+               : '';
 
-         const newValue = mask
-            ? String(value).replace(/[a-z\s\D\d\w\_\-]/g, maskValue)
-            : '';
+            const newLine = key + '=' + newValue;
 
-         const newLine = key + '=' + newValue;
+            newData = newData.replace(new RegExp(line, 'g'), newLine);
+         });
 
-         newData = newData.replace(new RegExp(line, 'g'), newLine);
+      const alreadyComment = newData.match(headerComment);
+
+      if (!alreadyComment) {
+         // credit adding
+         newData = headerComment + '\n\n' + newData;
+      }
+
+      fs.writeFileSync(to, newData, {
+         encoding: 'utf-8',
       });
-
-   const alreadyComment = newData.match(headerComment);
-
-   if (!alreadyComment) {
-      // credit adding
-      newData = headerComment + '\n\n' + newData;
+   } catch (err) {
+      console.error('dotenv-cloack:env', err);
    }
-
-   fs.writeFileSync(to, newData, {
-      encoding: 'utf-8',
-   });
 };
 
 export default cloack;
