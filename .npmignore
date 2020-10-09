@@ -11,13 +11,11 @@ node_modules
 .env
 .env.example
 .eslintignore
-.eslintrc.js
+.eslintrc
 .gitignore
 .prettierignore
 .prettierrc
-dcloack.json
 jest.config.js
-nodemon.json
 tsconfig.json
 yarn.lock
 

@@ -9,14 +9,13 @@
    "main": "dist/index.js",
    "bin": {
       "cloack": "./dist/cli.js",
-      "dclk": "./dist/cli.js",
       "dcloack": "./dist/cli.js",
       "dotenv-cloack": "./dist/cli.js"
    },
    "scripts": {
       "build": "tsc",
-      "dev": "nodemon",
-      "format": "prettier --write ./**/*.{json,ts}",
+      "dev": "ts-node-dev --respawn -T ./src/index.ts",
+      "format": "prettier --write ./**/*.{json,ts,js}",
       "lint": "eslint ./**/*.{js,ts,tsx} --fix",
       "test": "jest"
    },
@@ -32,8 +31,7 @@
       ]
    },
    "dependencies": {
-      "commander": "^6.0.0",
-      "merge-all-objects": "^1.0.4"
+      "commander": "^6.0.0"
    },
    "devDependencies": {
       "@types/chalk": "^2.2.0",
@@ -48,12 +46,11 @@
       "husky": "^4.2.5",
       "jest": "^26.1.0",
       "lint-staged": "^10.2.11",
-      "nodemon": "^2.0.4",
       "prettier": "^2.0.5",
       "prettier-plugin-organize-imports": "^1.1.1",
       "prettier-plugin-packagejson": "^2.2.5",
       "ts-jest": "^26.1.3",
-      "ts-node": "^8.10.2",
+      "ts-node-dev": "^1.0.0-pre.63",
       "typescript": "^3.9.7"
    }
 }
