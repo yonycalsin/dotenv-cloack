@@ -3,15 +3,23 @@ import path from 'path';
 import { headerComment, mergeOptions, rexMatchLine } from './constants';
 
 const cloack = (options?: any) => {
-   const { ignoreKeys, maskValue, from, to, mask, ignoreAll } = mergeOptions(
-      options,
-   );
+   const {
+      ignoreKeys,
+      maskValue,
+      from,
+      to,
+      mask,
+      ignoreAll,
+      alreadyEnv,
+   } = mergeOptions(options);
 
    const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
 
    let newData = data.toString();
 
    newData.split('\n').forEach((line) => {
+      if (alreadyEnv) return;
+
       const item = line.match(rexMatchLine);
 
       if (!item) return;
@@ -41,5 +49,7 @@ const cloack = (options?: any) => {
       encoding: 'utf-8',
    });
 };
+
+cloack();
 
 export default cloack;

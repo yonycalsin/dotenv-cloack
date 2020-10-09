@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+
 const headerComment = `# Created by https://github.com/yonycalsin/dotenv-cloack`;
 
 const envFilename = '.env';
@@ -20,9 +22,21 @@ const mergeOptions = (settings: any = defaultOptions) => {
    const ignoreKeys = [...defaultOptions?.ignore, ...settings?.ignore];
    const moreOptions = { ...defaultOptions, ...settings };
 
+   const alreadyEnv = existsSync(moreOptions.to);
+
+   if (alreadyEnv) {
+      moreOptions.ignoreAll = true;
+   }
+
+   const from = alreadyEnv ? moreOptions?.to : moreOptions?.from;
+   const to = alreadyEnv ? moreOptions?.from : moreOptions?.to;
+
    return {
       ...moreOptions,
       ignoreKeys,
+      alreadyEnv,
+      from,
+      to,
    };
 };
 
