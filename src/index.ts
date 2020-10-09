@@ -17,26 +17,25 @@ const cloack = (options?: any) => {
 
    let newData = data.toString();
 
-   newData.split('\n').forEach((line) => {
-      if (alreadyEnv) return;
+   !alreadyEnv &&
+      newData.split('\n').forEach((line) => {
+         const item = line.match(rexMatchLine);
 
-      const item = line.match(rexMatchLine);
+         if (!item) return;
 
-      if (!item) return;
+         const [, key, value] = item;
 
-      const [, key, value] = item;
+         // Already in ignore
+         if (ignoreKeys.includes(key) || ignoreAll) return;
 
-      // Already in ignore
-      if (ignoreKeys.includes(key) || ignoreAll) return;
+         const newValue = mask
+            ? String(value).replace(/[a-z\s\D\d\w\_\-]/g, maskValue)
+            : '';
 
-      const newValue = mask
-         ? String(value).replace(/[a-z\s\D\d\w\_\-]/g, maskValue)
-         : '';
+         const newLine = key + '=' + newValue;
 
-      const newLine = key + '=' + newValue;
-
-      newData = newData.replace(new RegExp(line, 'g'), newLine);
-   });
+         newData = newData.replace(new RegExp(line, 'g'), newLine);
+      });
 
    const alreadyComment = newData.match(headerComment);
 
