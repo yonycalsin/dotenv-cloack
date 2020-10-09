@@ -1,0 +1,42 @@
+name: CI Workflow
+
+on: push
+
+jobs:
+   eslint:
+      if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+
+      runs-on: ubuntu-latest
+
+      steps:
+         - uses: actions/checkout@v2.1.1
+
+         - name: Setup Node.js environment
+           uses: actions/setup-node@v1.4.2
+           with:
+              node-version: 12.x
+
+         - name: Install Dependencies
+           run: npm install
+
+         - name: eslint / tslint
+           run: yarn lint
+
+   test:
+      if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+
+      runs-on: ubuntu-latest
+
+      steps:
+         - uses: actions/checkout@v2.1.1
+
+         - name: Setup Node.js environment
+           uses: actions/setup-node@v1.4.2
+           with:
+              node-version: 12.x
+
+         - name: Install Dependencies
+           run: npm install
+
+         - name: Run tests
+           run: npm run test
