@@ -1,68 +1,54 @@
 import fs from 'fs';
-import { Merge } from 'merge-all-objects';
 import path from 'path';
+import { headerComment, mergeOptions, rexMatchLine } from './constants';
 
-const rex = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/;
-const defaultOptions = { ignore: [], remove: [] };
-const header = `# Created by dotenv-cloack © 2020\n# https://github.com/yonicalsin/dotenv-cloack`;
-
-const getOptions = () => {
-   let data: any;
+const cloack = (options?: any) => {
+   const {
+      ignoreKeys,
+      maskValue,
+      from,
+      to,
+      mask,
+      ignoreAll,
+      alreadyEnv,
+   } = mergeOptions(options);
    try {
-      data = fs.readFileSync(path.resolve('dcloack.json'), {
-         encoding: 'utf-8',
-      });
-      data = JSON.parse(data);
-   } catch {}
-   return Merge(defaultOptions, data);
-};
+      const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
 
-/**
- * @author Yoni Calsin <helloyonicb@gmail.com>
- * @title Parser function
- * @param from .env
- * @param to from + ".example"
- * @param write true
- */
-export const cloack = (
-   from = '.env',
-   to = from + '.example',
-   { write = true, ignore: moreIgnore = [] } = {},
-): undefined | string => {
-   let { ignore } = getOptions();
-   ignore = [...ignore, ...moreIgnore];
-   const data = fs.readFileSync(path.resolve(from), { encoding: 'utf-8' });
+      let newData = data.toString();
 
-   let newData = data.toString();
+      !alreadyEnv &&
+         newData.split('\n').forEach((line) => {
+            const item = line.match(rexMatchLine);
 
-   newData
-      .toString()
-      .split('\n')
-      .forEach((line) => {
-         const item = line.match(rex);
-         if (item) {
-            const [, key, value = 'xxxxxxx'] = item;
-            const newLine = `${key}=${String(value).replace(
-               /[a-z\s\D\d\w\_\-]/g,
-               'x',
-            )}`;
+            if (!item) return;
 
-            if (!ignore.includes(key)) {
-               newData = newData.replace(new RegExp(line, 'g'), newLine);
-            }
-         }
-      });
+            const [, key, value] = item;
 
-   // credit adding
-   newData = header + '\n\n' + newData;
-   newData += '\n\n' + header;
+            // Already in ignore
+            if (ignoreKeys.includes(key) || ignoreAll) return;
 
-   if (write) {
+            const newValue = mask
+               ? String(value).replace(/[a-z\s\D\d\w\_\-]/g, maskValue)
+               : '';
+
+            const newLine = key + '=' + newValue;
+
+            newData = newData.replace(new RegExp(line, 'g'), newLine);
+         });
+
+      const alreadyComment = newData.match(headerComment);
+
+      if (!alreadyComment) {
+         // credit adding
+         newData = headerComment + '\n\n' + newData;
+      }
+
       fs.writeFileSync(to, newData, {
          encoding: 'utf-8',
       });
-   } else {
-      return newData;
+   } catch (err) {
+      console.error('dotenv-cloack:env', err);
    }
 };
 
