@@ -9,17 +9,26 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
-         - uses: actions/checkout@v2.1.1
+         - uses: actions/checkout@v2
 
-         - name: Setup Node.js environment
-           uses: actions/setup-node@v1.4.2
+         - name: Set up node environment
+           uses: actions/setup-node@v2-beta
            with:
               node-version: 12.x
 
-         - name: Install Dependencies
-           run: npm install
+         - name: Cache node modules
+           id: node-modules
+           uses: actions/cache@v2
+           with:
+              path: node_modules
+              key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+              restore-keys: |
+                 ${{ runner.os }}-node-
 
-         - name: eslint / tslint
+         - if: steps.node-modules.outputs.cache-hit != 'true'
+           run: yarn
+
+         - name: eslint
            run: yarn lint
 
    test:
